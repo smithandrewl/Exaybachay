@@ -2,8 +2,10 @@ CC        = clang++
 CFLAGS    = -std=c++11 -Wall -pedantic -Weffc++
 MAKEFLAGS = -j5
 
-all: henley.cpp
+all: henley.cpp tests
 	$(CC) $(CFLAGS) henley.cpp -o henley
 
+tests: tests.cpp
+	$(CC) $(CFLAGS) -lboost_system -lboost_unit_test_framework tests.cpp -o tests
 clean:
-	rm -f henley
+	rm -f henley tests
