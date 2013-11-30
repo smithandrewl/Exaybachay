@@ -1,8 +1,18 @@
 #include "gtest/gtest.h"
 
+#include "generator.h"
 
-TEST(DummyTest, TestName) {
-	EXPECT_EQ(1, 1);
+class GeneratorTest : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		empty.init(vector<int>());
+	}
+
+	Generator<int> empty;
+};
+
+TEST_F(GeneratorTest, EmptyInit) {
+	EXPECT_EQ(true, empty.generate(10).empty());
 }
 
 int main(int argc, char** argv) {
