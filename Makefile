@@ -6,6 +6,6 @@ all: henley.cpp tests
 	$(CC) $(CFLAGS) henley.cpp -o henley
 
 tests: tests.cpp
-	$(CC) $(CFLAGS) -lboost_system -lboost_unit_test_framework tests.cpp -o tests
+	$(CC) $(CFLAGS) -lgtest tests.cpp -o tests
 clean:
 	rm -f henley tests
