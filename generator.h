@@ -1,3 +1,6 @@
+#ifndef GENERATOR_H
+#define GENERATOR_H
+
 #include <map>
 #include <utility>
 #include <vector>
@@ -25,3 +28,5 @@ private:
 	map<pair<S, S>, priority_queue<pair<S, int>>> table;
 
 };
+
+#endif
