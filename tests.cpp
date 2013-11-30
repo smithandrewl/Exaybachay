@@ -1,12 +1,12 @@
-#define BOOST_TEST_MAIN
-#define BOOST_TEST_DYN_LINK
+#include "gtest/gtest.h"
 
-#include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_SUITE(MasterSuite)
-
-BOOST_AUTO_TEST_CASE(dummy_test) {
-
+TEST(DummyTest, TestName) {
+	EXPECT_EQ(1, 1);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+int main(int argc, char** argv) {
+	::testing::InitGoogleTest(&argc, argv);
+
+	return RUN_ALL_TESTS();
+}
