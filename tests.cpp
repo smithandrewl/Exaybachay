@@ -2,17 +2,24 @@
 
 #include "generator.h"
 
-class GeneratorTest : public ::testing::Test {
+class IntGeneratorTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		empty.init(vector<int>());
+		small.init({1, 4, 1, 1, 4, 5, 1, 4, 1});
 	}
 
 	Generator<int> empty;
+	Generator<int> small;
 };
 
-TEST_F(GeneratorTest, EmptyInit) {
+TEST_F(IntGeneratorTest, EmptyInit) {
 	EXPECT_EQ(true, empty.generate(10).empty());
+}
+
+TEST_F(IntGeneratorTest, GenerateZero) {
+	EXPECT_EQ(vector<int>(), empty.generate(0));
+	EXPECT_EQ(vector<int>(), small.generate(0));
 }
 
 int main(int argc, char** argv) {
