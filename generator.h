@@ -14,12 +14,12 @@ using std::priority_queue;
 template<typename S>
 class Generator {
 public:
-	Generator() { }
+	Generator() { 
+		table = { };
+	}
 	void init(vector<S> items) { }
+	vector<S> generate(int count, pair<S, S> start) { return vector<S>(); }
 
-	vector<S> generate(int count) { return vector<S>(); }
-
-protected:
 	map<pair<S, S>, priority_queue<pair<S, int>>> build(vector<S>) {
 		return map<pair<S, S>, priority_queue<pair<S, int>>>();
 	}
