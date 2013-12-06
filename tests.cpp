@@ -3,6 +3,8 @@
 #include "generator.h"
 #include <iostream>
 
+using std::string;
+
 class IntGeneratorTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
@@ -15,12 +17,24 @@ protected:
 };
 
 TEST_F(IntGeneratorTest, EmptyInit) {
-	EXPECT_EQ(true, empty.generate(10, std::make_pair(0, 0)).empty());
+	EXPECT_EQ(vector<int>(), empty.generate(10, std::make_pair(0, 0)));
 }
 
 TEST_F(IntGeneratorTest, GenerateZero) {
 	EXPECT_EQ(vector<int>(), empty.generate(0, std::make_pair(0, 0)));
 	EXPECT_EQ(vector<int>(), small.generate(0, std::make_pair(1, 4)));
+}
+
+TEST_F(IntGeneratorTest, GenerateThree) {
+	vector<int> expected = {1, 1, 4};
+
+	EXPECT_EQ(expected, small.generate(3, std::make_pair(1, 4)));
+}
+
+TEST_F(IntGeneratorTest, GenerateSix) {
+	vector<int> expected = {1, 4, 1, 1, 4, 1};
+
+	EXPECT_EQ(expected, small.generate(6, std::make_pair(4,5)));
 }
 
 int main(int argc, char** argv) {
