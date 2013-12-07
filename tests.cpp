@@ -1,12 +1,44 @@
-#define BOOST_TEST_MAIN
-#define BOOST_TEST_DYN_LINK
+#include "gtest/gtest.h"
 
-#include <boost/test/unit_test.hpp>
+#include "generator.h"
+#include <iostream>
 
-BOOST_AUTO_TEST_SUITE(MasterSuite)
+using std::string;
 
-BOOST_AUTO_TEST_CASE(dummy_test) {
+class IntGeneratorTest : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		empty.init(vector<int>());
+		small.init({1, 4, 1, 1, 4, 5, 1, 4, 1});
+	}
 
+	Generator<int> empty;
+	Generator<int> small;
+};
+
+TEST_F(IntGeneratorTest, EmptyInit) {
+	EXPECT_EQ(vector<int>(), empty.generate(10, std::make_pair(0, 0)));
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+TEST_F(IntGeneratorTest, GenerateZero) {
+	EXPECT_EQ(vector<int>(), empty.generate(0, std::make_pair(0, 0)));
+	EXPECT_EQ(vector<int>(), small.generate(0, std::make_pair(1, 4)));
+}
+
+TEST_F(IntGeneratorTest, GenerateThree) {
+	vector<int> expected = {1, 1, 4};
+
+	EXPECT_EQ(expected, small.generate(3, std::make_pair(1, 4)));
+}
+
+TEST_F(IntGeneratorTest, GenerateSix) {
+	vector<int> expected = {1, 4, 1, 1, 4, 1};
+
+	EXPECT_EQ(expected, small.generate(6, std::make_pair(4,5)));
+}
+
+int main(int argc, char** argv) {
+	::testing::InitGoogleTest(&argc, argv);
+
+	return RUN_ALL_TESTS();
+}

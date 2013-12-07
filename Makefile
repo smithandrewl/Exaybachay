@@ -5,7 +5,11 @@ MAKEFLAGS = -j5
 all: henley.cpp tests
 	$(CC) $(CFLAGS) henley.cpp -o henley
 
+generator.h: generator.h
+	$(CC) $(CFLAGS) -c generator.h
+
 tests: tests.cpp
-	$(CC) $(CFLAGS) -lboost_system -lboost_unit_test_framework tests.cpp -o tests
+	$(CC) $(CFLAGS) -lgtest tests.cpp -o tests
+
 clean:
 	rm -f henley tests
