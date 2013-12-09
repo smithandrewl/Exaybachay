@@ -95,6 +95,22 @@ TEST(ToLower, MixedCaseSpacePunc) {
 	EXPECT_EQ("abc ? : d", toLower("AbC ? : d"));
 }
 
+TEST(ToAlphaNumeric, EmptyString) {
+	EXPECT_EQ("", toAlphaNumeric(""));
+}
+
+TEST(ToAlphaNumeric, NoAlphaNumeric) {
+	EXPECT_EQ("", toAlphaNumeric(";? \\ @"));
+}
+
+TEST(ToAlphaNumeric, OnlyAlphaNumeric) {
+	EXPECT_EQ("Abj3i", toAlphaNumeric("Abj3i"));
+}
+
+TEST(ToAlphaNumeric, Mixed) {
+	EXPECT_EQ("AjI3HibC", toAlphaNumeric("AjI3H:i b C"));
+}
+
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
 
