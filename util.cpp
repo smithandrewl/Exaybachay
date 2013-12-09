@@ -31,12 +31,21 @@ vector<string> split(const string& str, const string& delimiters) {
 	return result;
 }
 
-
 string toLower(const string& str) {
 	string result;
 
 	for(char chr : str)
 		result.push_back(tolower(chr));
+
+	return result;
+}
+
+string toAlphaNumeric(const string& str) {
+	string result;
+
+	for(char chr : str)
+		if(isalnum(chr))
+			result.push_back(chr);
 
 	return result;
 }
