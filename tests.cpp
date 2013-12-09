@@ -75,6 +75,26 @@ TEST(Split, MultDelims) {
 	EXPECT_EQ(expected, split("first\tsecond third", "\t "));
 }
 
+TEST(ToLower, EmptyString) {
+	EXPECT_EQ("", toLower(""));
+}
+
+TEST(ToLower, AllLower) {
+	EXPECT_EQ("abc", toLower("abc"));
+}
+
+TEST(ToLower, AllUpper) {
+	EXPECT_EQ("abc", toLower("ABC"));
+}
+
+TEST(ToLower, MixedCase) {
+	EXPECT_EQ("abc", toLower("aBC"));
+}
+
+TEST(ToLower, MixedCaseSpacePunc) {
+	EXPECT_EQ("abc ? : d", toLower("AbC ? : d"));
+}
+
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
 
