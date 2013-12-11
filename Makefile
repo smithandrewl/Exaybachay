@@ -3,7 +3,7 @@ CFLAGS    = -std=c++11 -Wall -pedantic -Weffc++
 MAKEFLAGS = -j5
 
 all: henley.cpp tests
-	$(CC) $(CFLAGS) henley.cpp -o henley
+	$(CC) $(CFLAGS) henley.cpp util.o -o henley
 
 tests: tests.cpp util.o generator.h
 	$(CC) $(CFLAGS) util.o -lgtest tests.cpp -o tests
