@@ -6,6 +6,8 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using std::map;
 using std::vector;
@@ -24,7 +26,8 @@ struct OccComparator
 template<typename S>
 class Generator {
 public:
-	Generator() { 
+	Generator() {
+		srand(time(NULL)); 
 		table = { };
 	}
 
@@ -54,6 +57,7 @@ public:
 		}
 	}
 
+
 	vector<S> generate(int count, pair<S, S> start) { 
 	
 		vector<S> generated;
@@ -62,8 +66,7 @@ public:
 			for(int i = 0; i < count; ++i) {
 
 				// Look up the set of suffixes for the pair start
-				// Get the first one and add it to the output vector
-				auto suffix = (*(table[start].begin())).first;
+				auto suffix = choose(table[start]);
 				generated.push_back(suffix);
 
 				// Set start to a pair consisting of the second part of the last 
@@ -88,6 +91,23 @@ public:
 	}
 
 private:
+	S choose(set<pair<S, int>, OccComparator<S>> items) {
+
+		int total = 0;
+		int rnd   = 0;
+
+		for(auto item : items)
+			total+= item.second;
+
+		rnd = rand() % total;
+
+		for(auto item : items)
+			if(rnd < item.second)
+				return item.first;
+			else
+				rnd -= item.second;
+	}
+
 	map<pair<S, S>, set<pair<S, int>, OccComparator<S>>> table;
 };
 
