@@ -32,7 +32,8 @@ public:
 	}
 
 	void init(vector<S> const& items) { 
-
+		table.clear();
+		
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
 				bool     found    = false;
