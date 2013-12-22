@@ -31,13 +31,13 @@ public:
 		table = { };
 	}
 
-	void init(vector<S> items) { 
+	void init(vector<S> const& items) { 
 
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
-				bool    found    = false;
-				auto&   suffixes = table[std::make_pair(items[i], items[i + 1])];
-				S&      third    = items[i + 2];
+				bool     found    = false;
+				auto&    suffixes = table[std::make_pair(items[i], items[i + 1])];
+				S const& third    = items[i + 2];
 
 				for(auto suffix : suffixes) {
 					if(suffix.first == third) {
@@ -59,14 +59,13 @@ public:
 
 
 	vector<S> generate(int count, pair<S, S> start) { 
-	
 		vector<S> generated;
 
 		if(!table.empty()) {
 			for(int i = 0; i < count; ++i) {
 
 				// Look up the set of suffixes for the pair start
-				auto suffix = choose(table[start]);
+				auto const& suffix = choose(table[start]);
 				generated.push_back(suffix);
 
 				// Set start to a pair consisting of the second part of the last 
@@ -79,11 +78,12 @@ public:
 	}
 
 	void print() {
-		for(auto pair : table) {
+		for(auto& pair : table) {
 			std::cout << pair.first.first << ' ' << pair.first.second;
 
 			std::cout << " : [";
-			for(auto suffix : pair.second)
+
+			for(auto const& suffix : pair.second)
 				std::cout << suffix.first << ':' << suffix.second << ", ";
 
 			std::cout << ']' << std::endl;
@@ -91,17 +91,17 @@ public:
 	}
 
 private:
-	S choose(set<pair<S, int>, OccComparator<S>> items) {
+	S choose(set<pair<S, int>, OccComparator<S>> const& items) {
 
 		int total = 0;
 		int rnd   = 0;
 
-		for(auto item : items)
+		for(auto const& item : items)
 			total+= item.second;
 
 		rnd = rand() % total;
 
-		for(auto item : items)
+		for(auto& item : items)
 			if(rnd < item.second)
 				return item.first;
 			else
