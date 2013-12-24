@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cassert>
 
 using std::map;
 using std::vector;
@@ -32,7 +33,8 @@ public:
 	}
 
 	void init(vector<S> const& items) { 
-
+		table.clear();
+		
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
 				bool     found    = false;
@@ -93,19 +95,29 @@ public:
 private:
 	S choose(set<pair<S, int>, OccComparator<S>> const& items) {
 
-		int total = 0;
-		int rnd   = 0;
+		S result;
+
+		int  total  = 0;
+		int  rnd    = 0;
+		bool chosen = false;
 
 		for(auto const& item : items)
 			total+= item.second;
 
 		rnd = rand() % total;
 
-		for(auto& item : items)
-			if(rnd < item.second)
-				return item.first;
-			else
+		for(auto& item : items) {
+			if(rnd < item.second) {
+				result = item.first;
+				chosen = true;
+				break;
+			} else {
 				rnd -= item.second;
+			}
+		}
+		
+		assert(chosen);
+		return result;
 	}
 
 	map<pair<S, S>, set<pair<S, int>, OccComparator<S>>> table;
