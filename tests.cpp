@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 
 #include "generator.h"
+#include "textgenerator.h"
+
 #include "util.h"
 #include <iostream>
 
@@ -37,6 +39,14 @@ TEST_F(IntGeneratorTest, GenerateSix) {
 	vector<int> expected = {1, 4, 1, 1, 4, 1};
 
 	EXPECT_EQ(expected, small.generate(6, std::make_pair(4,5)));
+}
+
+TEST(TextGenerator, EmptyInit) {
+	TextGenerator textGenerator;
+
+	textGenerator.init(vector<string>());
+
+	EXPECT_EQ(vector<string>(), textGenerator.generate(6, std::make_pair("one", "two")));
 }
 
 TEST(Split, EmptyString) {

@@ -29,7 +29,7 @@ void TextGenerator::init(vector<string> items) {
 }
 
 vector<string> TextGenerator::generate(int count, pair<string, string> start) {
-	generator.generate(count, start);
+	return generator.generate(count, start);
 }
 
 void TextGenerator::print() {
