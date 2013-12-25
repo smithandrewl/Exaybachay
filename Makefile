@@ -4,14 +4,17 @@ MAKEFLAGS   = -j5
 GTKMM_FLAGS := $(shell pkg-config gtkmm-3.0 --cflags)
 GTKMM_LIBS  := $(shell pkg-config gtkmm-3.0 --libs)
 
-all: henley.cpp tests
-	$(CC) $(CFLAGS) $(GTKMM_FLAGS) $(GTKMM_LIBS) henley.cpp util.o -o henley
+all: henley.cpp tests textgenerator.o util.o
+	$(CC) $(CFLAGS) $(GTKMM_FLAGS) $(GTKMM_LIBS) henley.cpp util.o textgenerator.o -o henley
 
-tests: tests.cpp util.o generator.h
-	$(CC) $(CFLAGS) util.o -lgtest tests.cpp -o tests
+tests: tests.cpp util.o textgenerator.o
+	$(CC) $(CFLAGS) util.o textgenerator.o -lgtest tests.cpp -o tests
+
+textgenerator.o: textgenerator.cpp textgenerator.h generator.h
+	$(CC) $(CFLAGS) -c textgenerator.cpp
 
 util.o: util.h util.cpp
 	$(CC) $(CFLAGS) -c util.cpp
 
 clean:
-	rm -f henley tests util.o
+	rm -f henley tests util.o textgenerator.o
