@@ -28,6 +28,9 @@ void TextGenerator::init(vector<string> items) {
 	generator.init(items);
 }
 
+vector<string> TextGenerator::generate(int count) {
+	return generator.generate(count);
+}
 vector<string> TextGenerator::generate(int count, pair<string, string> start) {
 	return generator.generate(count, start);
 }
