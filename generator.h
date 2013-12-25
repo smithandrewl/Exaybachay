@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
+#include <iterator>
 
 using std::map;
 using std::vector;
@@ -59,6 +60,18 @@ public:
 		}
 	}
 
+	vector<S> generate(int count) {
+		int index = rand() % table.size();
+
+		auto it = table.begin();
+
+		for(int i = 0; i < index + 1; ++i)
+			++it;
+
+
+
+		return generate(count, (*it).first);
+	}
 
 	vector<S> generate(int count, pair<S, S> start) { 
 		vector<S> generated;
