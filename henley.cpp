@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 
+#include "textgenerator.h"
+
 using std::string;
 
 using Glib::RefPtr;
@@ -12,16 +14,36 @@ using Gtk::TextBuffer;
 using Gtk::Button;
 using Gtk::Application;
 using Gtk::Builder;
+using Gtk::SpinButton;
+
+TextGenerator generator;
 
 // --------- Widgets ---------------
 ApplicationWindow* pWindow      = 0;
 TextView*          textView     = 0;
 FileChooserButton* chooseButton = 0;
+SpinButton*        spinButton   = 0;
 // ---------------------------------
 
 // --------- Event Handlers --------
-void execute() {}
-void fileSelected() {}
+void execute() {
+	string output;
+
+	auto   buffer        = textView->get_buffer();
+	int    numberOfWords = spinButton->get_value_as_int();
+
+	for(string word : generator.generate(numberOfWords)) {
+		output.append(word);
+		output.append(" ");
+	}
+
+	buffer->set_text(output);
+}
+
+void fileSelected() {
+	string filename = chooseButton->get_filename();
+	generator.init(filename);
+}
 // ---------------------------------
 
 int main(int argc, char** argv) {
@@ -37,7 +59,7 @@ int main(int argc, char** argv) {
 		refBuilder->get_widget("executeButton", executeButton);
 		refBuilder->get_widget("chooseButton",  chooseButton);
  		refBuilder->get_widget("textView",      textView);
-
+ 		refBuilder->get_widget("spinButton",    spinButton);
 		executeButton->signal_clicked().connect(sigc::ptr_fun(execute));
 		chooseButton->signal_file_set().connect(sigc::ptr_fun(fileSelected));
 
