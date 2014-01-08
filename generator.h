@@ -9,21 +9,12 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-#include <iterator>
 
 using std::map;
 using std::vector;
 using std::pair;
 using std::set;
 using std::ostream;
-
-template<typename S>
-struct OccComparator
-{
-	bool operator()(const std::pair<S, int>& self, const std::pair<S, int> other) {
-		return self.second > other.second; 
-	}
-};
 
 template<typename S>
 class Generator {
@@ -35,58 +26,41 @@ public:
 
 	void init(vector<S> const& items) { 
 		table.clear();
-		
+
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
-				bool     found    = false;
-				auto&    suffixes = table[std::make_pair(items[i], items[i + 1])];
-				S const& third    = items[i + 2];
+				auto     prefix = std::make_pair(items[i], items[i + 1]);
+				S const& suffix = items[i + 2];
 
-				for(auto suffix : suffixes) {
-					if(suffix.first == third) {
-						found = true;
-
-						suffixes.erase(suffix);
-						suffix.second += 1;
-						suffixes.insert(suffix);
-
-						break;
-					}
-				}
-
-				if(!found)
-					suffixes.insert(std::make_pair(third, 1));
+				table[prefix][suffix]++;
 			}
 		}
 	}
 
 	vector<S> generate(int count) {
-		int index = rand() % table.size();
-
 		auto it = table.begin();
 
-		for(int i = 0; i < index + 1; ++i)
-			++it;
+		std::advance(it, rand() % table.size());
 
-
-
-		return generate(count, (*it).first);
+		return generate(count, it->first);
 	}
 
-	vector<S> generate(int count, pair<S, S> start) { 
+	vector<S> generate(int count, pair<S, S> prefix) { 
 		vector<S> generated;
 
-		if(!table.empty()) {
-			for(int i = 0; i < count; ++i) {
+		if(table.empty()) 
+			return generated;
+			
+		for(int i = 0; i < count; ++i) {
 
-				// Look up the set of suffixes for the pair start
-				auto const& suffix = choose(table[start]);
-				generated.push_back(suffix);
 
-				// Set start to a pair consisting of the second part of the last 
-				// Start pair and the value just added to the output vector
-				start = std::make_pair(start.second, suffix);
-			}
+			// Choose a random suffix for the pair prefix and add it to generator
+			auto suffix = choose(table[prefix]);
+			generated.push_back(suffix);
+
+			// Set prefix to a pair consisting of the second part of the last 
+			// prefix pair and the value just added to the output vector
+			prefix = std::make_pair(prefix.second, suffix);
 		}
 
 		return generated; 
@@ -106,7 +80,7 @@ public:
 	}
 
 private:
-	S choose(set<pair<S, int>, OccComparator<S>> const& items) {
+	S choose(map<S, int> const& items) {
 
 		S result;
 
@@ -133,7 +107,7 @@ private:
 		return result;
 	}
 
-	map<pair<S, S>, set<pair<S, int>, OccComparator<S>>> table;
+	map<pair<S, S>, map<S, int>> table;
 };
 
 #endif
