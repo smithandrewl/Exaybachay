@@ -23,7 +23,7 @@ using std::unordered_map;
 template<typename S>
 class Generator {
 public:
-	Generator(): table(), unique(), itemIndices() {
+	Generator(): unique(), itemIndices(), table() {
 		srand(time(NULL)); 
 	}
 
