@@ -20,6 +20,7 @@ protected:
 	Generator<int> small;
 };
 
+/*
 TEST_F(IntGeneratorTest, EmptyInit) {
 	EXPECT_EQ(vector<int>(), empty.generate(10, std::make_pair(0, 0)));
 }
@@ -27,7 +28,7 @@ TEST_F(IntGeneratorTest, EmptyInit) {
 TEST_F(IntGeneratorTest, GenerateZero) {
 	EXPECT_EQ(vector<int>(), empty.generate(0, std::make_pair(0, 0)));
 	EXPECT_EQ(vector<int>(), small.generate(0, std::make_pair(1, 4)));
-}
+}S
 
 TEST_F(IntGeneratorTest, GenerateThree) {
 	vector<int> expected = {1, 1, 4};
@@ -48,6 +49,7 @@ TEST(TextGenerator, EmptyInit) {
 
 	EXPECT_EQ(vector<string>(), textGenerator.generate(6, std::make_pair("one", "two")));
 }
+*/
 
 TEST(Split, EmptyString) {
 	EXPECT_EQ(vector<string>(), split("", " "));

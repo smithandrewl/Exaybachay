@@ -2,6 +2,7 @@
 #define GENERATOR_H
 
 #include <map>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 #include <set>
@@ -10,27 +11,48 @@
 #include <ctime>
 #include <cassert>
 
+#include "util.h"
+
 using std::map;
 using std::vector;
 using std::pair;
 using std::set;
 using std::ostream;
+using std::unordered_map;
 
 template<typename S>
 class Generator {
 public:
-	Generator() {
+	Generator(): table(), unique(), itemIndices() {
 		srand(time(NULL)); 
-		table = { };
 	}
 
 	void init(vector<S> const& items) { 
 		table.clear();
+		unique.clear();
+		itemIndices.clear();
+
+		set<S> itemSet;
+
+		// Build a collection containing every unique item
+		for(int i = 0; i< items.size(); ++i) {
+		    itemSet.insert(items[i]);
+		}
+
+		int idx = 0;
+
+		// 1. Add every unique item to "items" at index "idx"
+		// 2. Add a mapping from the item to its index in "items"
+		for(S item : itemSet) {
+		    unique.push_back(item);
+		    itemIndices.insert(std::make_pair(item, idx));
+		    ++idx;
+		}
 
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
-				auto     prefix = std::make_pair(items[i], items[i + 1]);
-				S const& suffix = items[i + 2];
+				auto     prefix = std::make_pair(itemIndices[items[i]], itemIndices[items[i + 1]]);
+				int const& suffix = itemIndices[items[i + 2]];
 
 				table[prefix][suffix]++;
 			}
@@ -45,7 +67,21 @@ public:
 		return generate(count, it->first);
 	}
 
-	vector<S> generate(int count, pair<S, S> prefix) { 
+	void print() {
+		for(auto& pair : table) {
+			std::cout << unique[pair.first.first] << ' ' << unique[pair.first.second];
+
+			std::cout << " : [";
+
+			for(auto const& suffix : pair.second)
+				std::cout << unique[suffix.first] << ':' << unique[suffix.second] << ", ";
+
+			std::cout << ']' << std::endl;
+		}
+	}
+
+private:
+	vector<S> generate(int count, pair<int, int> prefixIdxs) { 
 		vector<S> generated;
 
 		if(table.empty()) 
@@ -55,34 +91,20 @@ public:
 
 
 			// Choose a random suffix for the pair prefix and add it to generator
-			auto suffix = choose(table[prefix]);
-			generated.push_back(suffix);
+			int suffix = choose(table[prefixIdxs]);
+			generated.push_back(unique[suffix]);
 
 			// Set prefix to a pair consisting of the second part of the last 
 			// prefix pair and the value just added to the output vector
-			prefix = std::make_pair(prefix.second, suffix);
+			prefixIdxs = std::make_pair(prefixIdxs.second, suffix);
 		}
 
 		return generated; 
 	}
 
-	void print() {
-		for(auto& pair : table) {
-			std::cout << pair.first.first << ' ' << pair.first.second;
+	int choose(map<int, int> const& items) {
 
-			std::cout << " : [";
-
-			for(auto const& suffix : pair.second)
-				std::cout << suffix.first << ':' << suffix.second << ", ";
-
-			std::cout << ']' << std::endl;
-		}
-	}
-
-private:
-	S choose(map<S, int> const& items) {
-
-		S result;
+		int result;
 
 		int  total  = 0;
 		int  rnd    = 0;
@@ -107,7 +129,9 @@ private:
 		return result;
 	}
 
-	map<pair<S, S>, map<S, int>> table;
+	vector<S> unique;
+	unordered_map<S, int> itemIndices;
+	map<pair<int, int>, map<int, int>> table;
 };
 
 #endif
