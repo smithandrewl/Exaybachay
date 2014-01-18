@@ -11,7 +11,6 @@ public:
 	void init(std::string path);
 	void init(vector<std::string> items);
 	vector<std::string> generate(int count);
-	vector<std::string> generate(int count, pair<std::string, std::string> start);
 	void print();
 private:
 	Generator<std::string> generator;
