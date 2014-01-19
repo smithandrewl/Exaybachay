@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 	RefPtr<Application> app        = Application::create(argc, argv, "");
 	RefPtr<Builder>     refBuilder = Builder::create();
 
-	refBuilder->add_from_file("henley.glade");
+	refBuilder->add_from_file("gui.glade");
 	refBuilder->get_widget("applicationwindow", pWindow);
 
 	if(pWindow) {
