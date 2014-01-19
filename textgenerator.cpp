@@ -16,15 +16,12 @@ void TextGenerator::init(string path) {
 	vector<string> words;
 
 	while(std::getline(file, line)) {
+		line += '\n'; // restore the newline stripped off by getline
+
 		for(string word : split(line, " ")) {
 			words.push_back(word);
 		}
-
-		// restore the newline stripped off by getline
-		words.push_back("\n");
 	}
-
-
 
 	file.close();
 
