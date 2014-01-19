@@ -18,13 +18,11 @@ void TextGenerator::init(string path) {
 	while(std::getline(file, line)) {
 		line += '\n'; // restore the newline stripped off by getline
 
-		for(string word : split(line, " ")) {
+		for(string word : split(line, " "))
 			words.push_back(word);
-		}
 	}
 
 	file.close();
-
 	this->init(words);
 }
 

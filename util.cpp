@@ -9,10 +9,10 @@ using std::string;
 
 vector<string> split(const string& str, const string& delimiters) {
 	std::vector<std::string> result;
+    string                   word;
 	
-	string::size_type pos1, pos2 = 0;
-	
-	string word;
+	string::size_type pos1 = 0;
+	string::size_type pos2 = 0;
 	
 	pos1 = str.find_first_not_of(delimiters, pos2);
 	

@@ -35,9 +35,8 @@ public:
 		set<S> itemSet;
 
 		// Build a collection containing every unique item
-		for(int i = 0; i< items.size(); ++i) {
+		for(int i = 0; i< items.size(); ++i)
 		    itemSet.insert(items[i]);
-		}
 
 		int idx = 0;
 
@@ -51,7 +50,9 @@ public:
 
 		if(items.size() > 2) {
 			for(int i = 0; i < items.size() - 2; ++i) {
-				auto     prefix = std::make_pair(itemIndices[items[i]], itemIndices[items[i + 1]]);
+				auto prefix = std::make_pair(itemIndices[items[i]], 
+					                         itemIndices[items[i + 1]]);
+
 				int const& suffix = itemIndices[items[i + 2]];
 
 				table[prefix][suffix]++;
@@ -88,8 +89,6 @@ private:
 			return generated;
 			
 		for(int i = 0; i < count; ++i) {
-
-
 			// Choose a random suffix for the pair prefix and add it to generator
 			int suffix = choose(table[prefixIdxs]);
 			generated.push_back(unique[suffix]);
@@ -103,12 +102,10 @@ private:
 	}
 
 	int choose(map<int, int> const& items) {
-
-		int result;
-
+		bool chosen = false;
+		int  result = 0;
 		int  total  = 0;
 		int  rnd    = 0;
-		bool chosen = false;
 
 		for(auto const& item : items)
 			total+= item.second;
@@ -129,8 +126,8 @@ private:
 		return result;
 	}
 
-	vector<S> unique;
-	unordered_map<S, int> itemIndices;
+	vector<S>                          unique;
+	unordered_map<S, int>              itemIndices;
 	map<pair<int, int>, map<int, int>> table;
 };
 
