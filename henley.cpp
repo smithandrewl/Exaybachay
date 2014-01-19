@@ -33,17 +33,16 @@ void execute() {
 	auto   buffer        = textView->get_buffer();
 	int    numberOfWords = spinButton->get_value_as_int();
 
-	for(string word : generator.generate(numberOfWords)) {
-		output.append(word);
-		output.append(" ");
-	}
+	for(string word : generator.generate(numberOfWords))
+		output.append(word + ' ');
 
 	buffer->set_text(output);
 }
 
 void fileSelected() {
-	executeButton->set_sensitive(true);
 	string filename = chooseButton->get_filename();
+
+	executeButton->set_sensitive(true);
 	generator.init(filename);
 }
 // ---------------------------------
@@ -61,6 +60,7 @@ int main(int argc, char** argv) {
 		refBuilder->get_widget("chooseButton",  chooseButton);
  		refBuilder->get_widget("textView",      textView);
  		refBuilder->get_widget("spinButton",    spinButton);
+		
 		executeButton->signal_clicked().connect(sigc::ptr_fun(execute));
 		chooseButton->signal_file_set().connect(sigc::ptr_fun(fileSelected));
 
