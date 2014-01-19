@@ -49,6 +49,7 @@
               <object class="GtkButton" id="executeButton">
                 <property name="label">gtk-execute</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>

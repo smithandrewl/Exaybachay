@@ -18,12 +18,13 @@ using Gtk::SpinButton;
 
 TextGenerator generator;
 
-// --------- Widgets ---------------
-ApplicationWindow* pWindow      = 0;
-TextView*          textView     = 0;
-FileChooserButton* chooseButton = 0;
-SpinButton*        spinButton   = 0;
-// ---------------------------------
+// --------- Widgets ----------------
+ApplicationWindow* pWindow       = 0;
+TextView*          textView      = 0;
+FileChooserButton* chooseButton  = 0;
+SpinButton*        spinButton    = 0;
+Button*            executeButton = 0;	
+// ----------------------------------
 
 // --------- Event Handlers --------
 void execute() {
@@ -41,13 +42,13 @@ void execute() {
 }
 
 void fileSelected() {
+	executeButton->set_sensitive(true);
 	string filename = chooseButton->get_filename();
 	generator.init(filename);
 }
 // ---------------------------------
 
 int main(int argc, char** argv) {
-	Button* executeButton = 0;	
 
 	RefPtr<Application> app        = Application::create(argc, argv, "");
 	RefPtr<Builder>     refBuilder = Builder::create();
